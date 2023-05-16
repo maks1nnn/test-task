@@ -2,12 +2,12 @@
 
 use vendor\FormBuilder;
 
-$path = '';
+$path = 'http://testmanao.loc/controllers/enterController.php';
+
 $formBuilder = new FormBuilder($path);
-$formBuilder->addField('text', 'name', 'Имя', true);
-$formBuilder->addField('email', 'email', 'Email', true);
-$formBuilder->addField('password', 'password', 'Пароль', true);
-$formBuilder->addField('password', 'password', 'Пароль', true);
-$formBuilder->addField('submit', 'submit', 'Отправить');
-$formHtml = $formBuilder->buildForm();
-echo $formHtml;
+
+$formBuilder->addField('login', 'text', 'Login:', '', '', 'Enter your name', true, '[A-Za-z]+');
+$formBuilder->addField('password', 'password', 'Password:', '', '', 'Enter your password', true);
+$formBuilder->addField('link', 'link', '', 'Регистрация', 'http://testmanao.loc/controllers/registrController.php');
+$form = $formBuilder->buildForm();
+echo $form;
