@@ -8,14 +8,20 @@ namespace vendor;
 class FormBuilder
 {
   private $fields = array();
-  private $path;
+  private $jsHandlerFile;
+  private $formId;
+  private $cssFile;
+  private $errors = [];
 
-  public function __construct($path)
+  public function __construct( $jsHandlerFile, $formId, $cssFile)
   {
-    $this->path = $path;
+    $this->jsHandlerFile = $jsHandlerFile;
+    $this->formId = $formId;
+    $this->cssFile = $cssFile;
+    
   }
 
-  public function addField($name, $type, $label, $value = '', $link = '', $placeholder = '', $required = false, $pattern = '')
+  public function addField($name, $type, $label, $value = '', $link = '', $placeholder = '', $required = false, $pattern = '', $password='', $email='' )
   {
     $this->fields[] = array(
       'name' => $name,
@@ -25,13 +31,15 @@ class FormBuilder
       'link' => $link,
       'placeholder' => $placeholder,
       'required' => $required,
-      'pattern' => $pattern
+      'pattern' => $pattern,
+      'password' =>$password,
+      'email' =>$email
     );
   }
 
   public function buildForm()
   {
-    $form = '<form method="post" action="' . $this->path . '">';
+    $form = '<form id="' . $this->formId . '">';
 
     foreach ($this->fields as $field) {
       $form .= '<div>';
@@ -48,6 +56,7 @@ class FormBuilder
         if (!empty($field['pattern'])) {
           $form .= ' pattern="' . $field['pattern'] . '"';
         }
+        $form .= ' data-error="error-' . $field['name'] . '"';
         $form .= '>';
       } else if ($field['type'] == 'email') {
         $form .= '<input type="email" id="' . $field['name'] . '" name="' . $field['name'] . '" value="' . $field['value'] . '"';
@@ -60,6 +69,7 @@ class FormBuilder
         if (!empty($field['pattern'])) {
           $form .= ' pattern="' . $field['pattern'] . '"';
         }
+        $form .= ' data-error="error-' . $field['email'] . '"';
         $form .= '>';
       } else if ($field['type'] == 'link') {
         $form .= '<a href="' . $field['link'] . '">' . $field['value'] . '</a>';
@@ -74,8 +84,16 @@ class FormBuilder
         if (!empty($field['pattern'])) {
           $form .= ' pattern="' . $field['pattern'] . '"';
         }
+        $form .= ' data-error="error-' . $field['password'] . '"';
         $form .= '>';
         
+      }
+      if (isset($this->errors[$field['name']])) {
+        $form .= '<div class="error" id="error-' . $field['name'] . '">';
+        foreach ($this->errors[$field['name']] as $error) {
+          $form .= '<span>' . $error . '</span>';
+        }
+        $form .= '</div>';
       }
 
       $form .= '</div>';
@@ -83,25 +101,13 @@ class FormBuilder
 
     $form .= '<input type="submit" value="Submit">';
     $form .= '</form>';
+    $form .= '<script src="' . $this->jsHandlerFile . '"></script>';
+    $form .= '<link rel="stylesheet" href="' . $this->cssFile . '">';
 
     return $form;
   }
 }
 
 
-
-$path = 'http://testmanao.loc/controllers/registrController.php';
-$formBuilder = new FormBuilder($path);
-
-$formBuilder->addField('login', 'text', 'Login:', '', '', 'Enter your login', true, '[A-Za-z]{6,20}');
-$formBuilder->addField('name', 'text', 'Name:', '', '', 'Enter your name', true, '[A-Za-z]{2,23}');
-$formBuilder->addField('email', 'email', 'Email:', '', '', 'Enter your email', true, '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}');
-$formBuilder->addField('password', 'password', 'Password:', '', '', 'Enter your password', true);
-$formBuilder->addField('repeatPassword', 'password', 'Repeat password:', '', '', 'Repeat your password', true);
-$form = $formBuilder->buildForm();
-echo $form;
-
-
-//  <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Пожалуйста, введите действительный адрес электронной почты" />
 
 
