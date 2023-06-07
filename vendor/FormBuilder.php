@@ -7,107 +7,70 @@ namespace vendor;
 
 class FormBuilder
 {
-  private $fields = array();
+  private $fields = [];
+  private $links =[];
   private $jsHandlerFile;
   private $formId;
   private $cssFile;
-  private $errors = [];
+  
 
-  public function __construct( $jsHandlerFile, $formId, $cssFile)
+  
+
+  public function __construct($jsHandlerFile, $formId, $cssFile)
   {
     $this->jsHandlerFile = $jsHandlerFile;
     $this->formId = $formId;
     $this->cssFile = $cssFile;
-    
   }
 
-  public function addField($name, $type, $label, $value = '', $link = '', $placeholder = '', $required = false, $pattern = '', $password='', $email='' )
+  public function addField( $type, $id, $name, $placeholder, $errorId,)
   {
-    $this->fields[] = array(
-      'name' => $name,
+    $this->fields[] = array(      
       'type' => $type,
-      'label' => $label,
-      'value' => $value,
-      'link' => $link,
-      'placeholder' => $placeholder,
-      'required' => $required,
-      'pattern' => $pattern,
-      'password' =>$password,
-      'email' =>$email
+      'id' => $id,      
+      'name' => $name,     
+      'placeholder' => $placeholder,     
+      'errorId' => $errorId
+  
     );
   }
 
-  public function buildForm()
-  {
-    $form = '<form id="' . $this->formId . '">';
-
-    foreach ($this->fields as $field) {
-      $form .= '<div>';
-      $form .= '<label for="' . $field['name'] . '">' . $field['label'] . '</label>';
-
-      if ($field['type'] == 'text') {
-        $form .= '<input type="text" id="' . $field['name'] . '" name="' . $field['name'] . '" value="' . $field['value'] . '"';
-        if (!empty($field['placeholder'])) {
-          $form .= ' placeholder="' . $field['placeholder'] . '"';
-        }
-        if ($field['required']) {
-          $form .= ' required';
-        }
-        if (!empty($field['pattern'])) {
-          $form .= ' pattern="' . $field['pattern'] . '"';
-        }
-        $form .= ' data-error="error-' . $field['name'] . '"';
-        $form .= '>';
-      } else if ($field['type'] == 'email') {
-        $form .= '<input type="email" id="' . $field['name'] . '" name="' . $field['name'] . '" value="' . $field['value'] . '"';
-        if (!empty($field['placeholder'])) {
-          $form .= ' placeholder="' . $field['placeholder'] . '"';
-        }
-        if ($field['required']) {
-          $form .= ' required';
-        }
-        if (!empty($field['pattern'])) {
-          $form .= ' pattern="' . $field['pattern'] . '"';
-        }
-        $form .= ' data-error="error-' . $field['email'] . '"';
-        $form .= '>';
-      } else if ($field['type'] == 'link') {
-        $form .= '<a href="' . $field['link'] . '">' . $field['value'] . '</a>';
-      }else if ($field['type'] == 'password') {
-        $form .= '<input type="password" id="' . $field['name'] . '" name="' . $field['name'] . '" value=""';
-        if (!empty($field['placeholder'])) {
-          $form .= ' placeholder="' . $field['placeholder'] . '"';
-        }
-        if ($field['required']) {
-          $form .= ' required';
-        }
-        if (!empty($field['pattern'])) {
-          $form .= ' pattern="' . $field['pattern'] . '"';
-        }
-        $form .= ' data-error="error-' . $field['password'] . '"';
-        $form .= '>';
-        
-      }
-      if (isset($this->errors[$field['name']])) {
-        $form .= '<div class="error" id="error-' . $field['name'] . '">';
-        foreach ($this->errors[$field['name']] as $error) {
-          $form .= '<span>' . $error . '</span>';
-        }
-        $form .= '</div>';
-      }
-
-      $form .= '</div>';
+  public function addLink($href, $text)
+    {
+        $this->links[] = [
+            'href' => $href,
+            'text' => $text
+        ];
     }
 
-    $form .= '<input type="submit" value="Submit">';
-    $form .= '</form>';
-    $form .= '<script src="' . $this->jsHandlerFile . '"></script>';
-    $form .= '<link rel="stylesheet" href="' . $this->cssFile . '">';
+  public function buildForm()
+    {
+        $form = '<form id="' . $this->formId . '">';
+        foreach ($this->fields as $field) {
+            $form .= '<div>';
+            $form .= '<label for="' . $field['id'] . '">' . ucfirst($field['name']) . ':</label>';
+            $form .= '<input type="' . $field['type'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '" value="" placeholder="' . $field['placeholder'] . '" data-error="' . $field['errorId'] . '">';
+            $form .= '<div id="' . $field['errorId'] . '" class="error-message"></div>';
+            $form .= '</div>';
+        }
 
-    return $form;
-  }
+        if (!empty($this->links)) {
+            $form .= '<div>';
+            foreach ($this->links as $link) {
+                $form .= '<a href="' . $link['href'] . '">' . $link['text'] . '</a>';
+            }
+            $form .= '</div>';
+        }
+
+        $form .= '<input type="submit" value="Submit">';
+        $form .= '</form>';
+        $form .= '<script src="' . $this->jsHandlerFile . '"></script>';
+        $form .= '<link rel="stylesheet" href="' . $this->cssFile . '">';
+    
+        return $form;
+    }
 }
 
+ 
 
-
-
+  

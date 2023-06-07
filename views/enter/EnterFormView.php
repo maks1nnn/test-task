@@ -8,9 +8,9 @@ class EnterFormView extends \vendor\FormBuilder
     {
         parent::__construct($jsHandlerFile, $formId, $cssFile);
 
-        $this->addField('login', 'text', 'Login:', '', '', 'Enter your name', true, '[A-Za-z]+');
-        $this->addField('password', 'password', 'Password:', '', '', 'Enter your password', true);
-        $this->addField('link', 'link', '', 'Регистрация', 'http://testmanao.loc/controllers/registrController.php');
+        $this->addField('text', 'login', 'login', 'Enter your login', 'error-login');
+        $this->addField('password', 'password', 'password', 'Enter your password', 'error-password');
+        $this->addLink('http://testmanao.loc/controllers/registrController.php', 'Регистрация');
     }
 
     public function displayForm()
@@ -20,12 +20,3 @@ class EnterFormView extends \vendor\FormBuilder
     }
 }
 
-/*$path = 'http://testmanao.loc/controllers/enterController.php';
-
-$formBuilder = new FormBuilder($path);
-
-$formBuilder->addField('login', 'text', 'Login:', '', '', 'Enter your name', true, '[A-Za-z]+');
-$formBuilder->addField('password', 'password', 'Password:', '', '', 'Enter your password', true);
-$formBuilder->addField('link', 'link', '', 'Регистрация', 'http://testmanao.loc/controllers/registrController.php');
-$form = $formBuilder->buildForm();
-echo $form; */
