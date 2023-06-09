@@ -24,7 +24,7 @@ document.getElementById('enter').addEventListener('submit', function (event) {
 
       if (response.success) {
         // Успешно обработано, выполнить дополнительные действия
-        sendDataToController(login, name, email, password);
+        sendDataToController(login, password);
         alert('Form submitted successfully!');
 
       } else {
@@ -67,30 +67,43 @@ function handleErrors(errors) {
   }
 }
 
-function sendDataToController(login, name, email, password) {
+function sendDataToController(login, password) {
 
   // Создать объект для отправки данных на сервер
   var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/controllers/enterController.php', true);
+  xhr.open('POST', '/start', true);
   xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  
 
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
       // Получить и разобрать ответ от сервера
-      var response = JSON.parse(xhr.responseText);
-      console.log(response);
+      var response = xhr.responseText;
+     // var response = JSON.parse(xhr.responseText);
+     var startIndex = response.indexOf('{');
+var endIndex = response.lastIndexOf('}');
+
+// Извлекаем JSON-часть из строки
+var json = response.substring(startIndex, endIndex + 1);
+
+// Парсим JSON-строку в объект JavaScript
+var jsonData = JSON.parse(json);
+
+// Теперь вы можете работать с полученными данными в переменной jsonData
+console.log(jsonData);
+     
       // Очистить сообщения об ошибках
       clearErrorMessages();
 
-      if (response.success) {
+      if (jsonData.success) {
         // Успешно обработано, выполнить дополнительные действия
 
-        alert('Form submitted successfully!');
+        window.location.href = '/hello';
 
       } else {
         // Обработка ошибок
-        handleErrors(response.errors);
+        handleErrors(jsonData.errors);
       }
     }
   };
@@ -105,3 +118,6 @@ function sendDataToController(login, name, email, password) {
   console.log(dataNewUser);
   xhr.send(dataNewUser);
 }
+
+
+

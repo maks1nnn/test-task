@@ -1,6 +1,6 @@
 
 
-document.getElementById('registr').addEventListener('submit', function(event) {
+document.getElementById('registr').addEventListener('submit', function (event) {
   event.preventDefault(); // Отменить отправку формы
 
   // Собрать данные формы
@@ -17,7 +17,7 @@ document.getElementById('registr').addEventListener('submit', function(event) {
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
   // Отправить данные формы на сервер
-  xhr.onreadystatechange = function() {
+  xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
       // Получить и разобрать ответ от сервера
       var response = JSON.parse(xhr.responseText);
@@ -29,7 +29,7 @@ document.getElementById('registr').addEventListener('submit', function(event) {
         // Успешно обработано, выполнить дополнительные действия
         sendDataToController(login, name, email, password);
         alert('Form submitted successfully!');
-       
+
       } else {
         // Обработка ошибок
         handleErrors(response.errors);
@@ -39,10 +39,10 @@ document.getElementById('registr').addEventListener('submit', function(event) {
 
   // Преобразовать данные формы в строку для отправки
   var data = 'login=' + encodeURIComponent(login) +
-             '&name=' + encodeURIComponent(name) +
-             '&email=' + encodeURIComponent(email) +
-             '&password=' + encodeURIComponent(password) +
-             '&repeatPassword=' + encodeURIComponent(repeatPassword);
+    '&name=' + encodeURIComponent(name) +
+    '&email=' + encodeURIComponent(email) +
+    '&password=' + encodeURIComponent(password) +
+    '&repeatPassword=' + encodeURIComponent(repeatPassword);
 
   // Отправить данные на сервер
   xhr.send(data);
@@ -73,29 +73,41 @@ function handleErrors(errors) {
 }
 
 function sendDataToController(login, name, email, password) {
-  
+
   // Создать объект для отправки данных на сервер
   var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/controllers/registrController.php', true);
+  xhr.open('POST', '/registr', true);
   xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-  xhr.onreadystatechange = function() {
+  xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
       // Получить и разобрать ответ от сервера
-      var response = JSON.parse(xhr.responseText);
-      console.log(response);
+      var response = xhr.responseText;
+      // var response = JSON.parse(xhr.responseText);
+      var startIndex = response.indexOf('{');
+      var endIndex = response.lastIndexOf('}');
+
+      // Извлекаем JSON-часть из строки
+      var json = response.substring(startIndex, endIndex + 1);
+
+      // Парсим JSON-строку в объект JavaScript
+      var jsonData = JSON.parse(json);
+
+      // Теперь вы можете работать с полученными данными в переменной jsonData
+      console.log(jsonData);
+
       // Очистить сообщения об ошибках
       clearErrorMessages();
 
-      if (response.success) {
+      if (jsonData.success) {
         // Успешно обработано, выполнить дополнительные действия
-        
-        window.location.href = '/controllers/enterController.php';
-       
+
+        window.location.href = '/start';
+
       } else {
         // Обработка ошибок
-        handleErrors(response.errors);
+        handleErrors(jsonData.errors);
       }
     }
   };
@@ -103,10 +115,10 @@ function sendDataToController(login, name, email, password) {
 
   // Преобразовать данные формы в строку для отправки
   var dataNewUser = 'login=' + encodeURIComponent(login) +
-             '&name=' + encodeURIComponent(name) +
-             '&email=' + encodeURIComponent(email) +
-             '&password=' + encodeURIComponent(password);
-            
+    '&name=' + encodeURIComponent(name) +
+    '&email=' + encodeURIComponent(email) +
+    '&password=' + encodeURIComponent(password);
+
 
   // Отправить данные на сервер
   console.log(dataNewUser);

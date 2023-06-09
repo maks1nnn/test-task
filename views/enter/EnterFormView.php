@@ -10,7 +10,7 @@ class EnterFormView extends \vendor\FormBuilder
 
         $this->addField('text', 'login', 'login', 'Enter your login', 'error-login');
         $this->addField('password', 'password', 'password', 'Enter your password', 'error-password');
-        $this->addLink('http://testmanao.loc/controllers/registrController.php', 'Регистрация');
+        $this->addLink('/registr', 'Регистрация');
     }
 
     public function displayForm()

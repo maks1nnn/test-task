@@ -1,38 +1,45 @@
 <?php
 
-require  '../helpers/Autoloader.php';
 
+namespace controllers;
 
 use views\enter\EnterFormView;
 use models\EnterModel;
 
+class EnterController
+{
 
-$enterView = new EnterFormView('../public/js/enterHandler.js', "enter", '../public/css/style.css');
-$newUser = new EnterModel('../dataBase/user.json');
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+    public function exec()
+    {
+PR($_POST);
+        $enterView = new EnterFormView('../public/js/enterHandler.js', "enter", '../public/css/style.css');
+        $newUser = new EnterModel('../dataBase/user.json');
 
-        $data = $_POST;
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-        $item = array(
-            'login' => $data['login'],
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => $data['password']
-        );
-        $newUser->insert($item);
+            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 
-        $response = $newUser->getErrors();
+                $data = $_POST;
+                $item = array(
+                    'login' => $data['login'],
+                    'password' => $data['password']
+                );
+                PR($item);
+                $newUser->checkUser($item);
+                PR($newUser);
 
-        if (empty($response['errors'])) {
-            $response['success'] = true;
+                $response = $newUser->getResponse();
+                if (empty($response['errors'])) {
+                    $response['success'] = true;
+                }
+                header('Content-Type: application/json');
+                echo json_encode($response);
+                
+            }
+        } else {
+
+            $enterView->displayForm();
         }
-
-
-        echo json_encode($response);
     }
-} else {
-
-    $enterView->displayForm();
 }

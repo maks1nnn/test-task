@@ -1,44 +1,44 @@
 <?php
 
-require  '../helpers/Autoloader.php';
+namespace controllers;
 
 
 use views\registr\RegistrFormView;
 use models\RegistrModel;
 
+class RegistrController
+{
 
+    public function userRegistration()
+    {
 
-$registerView = new RegistrFormView('../public/js/registrHandler.js', "registr", '../public/css/style.css');
-$newUser = new RegistrModel('../dataBase/user.json');
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $registerView = new RegistrFormView('../public/js/registrHandler.js', "registr", '../public/css/style.css');
+        $newUser = new RegistrModel('../dataBase/user.json');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 
-        $data = $_POST;
+                $data = $_POST;
 
-        $item = array(
-            'login' => $data['login'],
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => $data['password']
-        );
-        $newUser->insert($item);
+                $item = array(
+                    'login' => $data['login'],
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'password' => $data['password']
+                );
+                $newUser->insert($item);
 
-        $response = $newUser->getErrors();
+                $response = $newUser->getErrors();
 
-        if (empty($response['errors'])) {
-         $response['success'] = true;
-        
+                if (empty($response['errors'])) {
+                    $response['success'] = true;
+                }
 
+                echo json_encode($response);
+            }
+        } else {
+
+            $registerView->displayForm();
         }
-            
-    
-        echo json_encode($response);
-        
-    
     }
-} else {
-
-    $registerView->displayForm();
 }
-
