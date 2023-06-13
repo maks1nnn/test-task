@@ -2,12 +2,18 @@
 
 namespace controllers;
 
-
+use helpers\SessionManager;
 use views\registr\RegistrFormView;
 use models\RegistrModel;
 
 class RegistrController
 {
+    private $sessionManager;
+
+    public function __construct()
+    {
+        $this->sessionManager = new SessionManager();
+    }
 
     public function userRegistration()
     {
@@ -33,6 +39,9 @@ class RegistrController
                 if (empty($response['errors'])) {
                     $response['success'] = true;
                 }
+
+                $this->sessionManager->set('username', $data['login']);
+                PR($_SESSION);
 
                 echo json_encode($response);
             }

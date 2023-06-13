@@ -74,25 +74,25 @@ function sendDataToController(login, password) {
   xhr.open('POST', '/start', true);
   xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  
+
 
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
       // Получить и разобрать ответ от сервера
       var response = xhr.responseText;
-     // var response = JSON.parse(xhr.responseText);
-     var startIndex = response.indexOf('{');
-var endIndex = response.lastIndexOf('}');
+      
+      var startIndex = response.indexOf('{');
+      var endIndex = response.lastIndexOf('}');
 
-// Извлекаем JSON-часть из строки
-var json = response.substring(startIndex, endIndex + 1);
+      // Извлекаем JSON-часть из строки
+      var json = response.substring(startIndex, endIndex + 1);
 
-// Парсим JSON-строку в объект JavaScript
-var jsonData = JSON.parse(json);
+      // Парсим JSON-строку в объект JavaScript
+      var jsonData = JSON.parse(json);
 
-// Теперь вы можете работать с полученными данными в переменной jsonData
-console.log(jsonData);
-     
+      
+      console.log(jsonData);
+
       // Очистить сообщения об ошибках
       clearErrorMessages();
 

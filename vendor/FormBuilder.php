@@ -23,14 +23,15 @@ class FormBuilder
     $this->cssFile = $cssFile;
   }
 
-  public function addField( $type, $id, $name, $placeholder, $errorId,)
+  public function addField( $type, $id, $name,$value, $placeholder, $errorId,)
   {
     $this->fields[] = array(      
       'type' => $type,
       'id' => $id,      
       'name' => $name,     
       'placeholder' => $placeholder,     
-      'errorId' => $errorId
+      'errorId' => $errorId,
+      'value' => $value
   
     );
   }
@@ -49,7 +50,7 @@ class FormBuilder
         foreach ($this->fields as $field) {
             $form .= '<div>';
             $form .= '<label for="' . $field['id'] . '">' . ucfirst($field['name']) . ':</label>';
-            $form .= '<input type="' . $field['type'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '" value="" placeholder="' . $field['placeholder'] . '" data-error="' . $field['errorId'] . '">';
+            $form .= '<input type="' . $field['type'] . '" id="' . $field['id'] . '" name="' . $field['name'] . '" value="' . $field['value'] . '" placeholder="' . $field['placeholder'] . '" data-error="' . $field['errorId'] . '">';
             $form .= '<div id="' . $field['errorId'] . '" class="error-message"></div>';
             $form .= '</div>';
         }

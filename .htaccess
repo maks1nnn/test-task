@@ -6,4 +6,4 @@ RewriteEngine On
 # Перенаправить все остальные запросы на контроллер
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ controllers/index.php?url=$1 [QSA,L]
+RewriteRule ^(.*)$ public/index.php?url=$1 [QSA,L]
