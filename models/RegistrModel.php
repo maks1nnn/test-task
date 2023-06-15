@@ -21,6 +21,9 @@ class RegistrModel extends \vendor\JsonDb
 
     public function insert($item)
     {
+        if (!$this->fileExists()) {
+            $this->createFile();
+        }
         $login = $item['login'];
         $email = $item['email'];
         $password = $item['password'];
@@ -39,7 +42,14 @@ class RegistrModel extends \vendor\JsonDb
     {
         return $this->uniqueChecker->getResponse();
     }
+    
+    private function fileExists()
+    {
+        return file_exists($this->fileName);
+    }
+
+    private function createFile()
+    {
+        file_put_contents($this->fileName, '[]');
+    }
 }
-
-
-

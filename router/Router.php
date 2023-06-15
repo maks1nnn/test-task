@@ -23,7 +23,8 @@ class Router {
             $controller->$actionName();
         } else {
             // Обработка ошибки 404 - маршрут не найден
-            echo "Error 404: Page notTT found.";
+            echo "Error 404: Page not found.";
+            
         }
     }
 }

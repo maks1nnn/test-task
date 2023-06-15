@@ -17,7 +17,10 @@ class EnterController
     }
 
     public function exec()
-    {          
+    {         
+        $authenticated = $this->sessionManager->get('authenticated');
+        if ($authenticated === true) {
+            header("Location: /hello");} 
         $enterView = new EnterFormView('../public/js/enterHandler.js', "enter", '../public/css/style.css');
         $newUser = new EnterModel('../dataBase/user.json');
 

@@ -16,7 +16,11 @@ class RegistrController
     }
 
     public function userRegistration()
-    {
+    {       
+        $authenticated = $this->sessionManager->get('authenticated');
+        if ($authenticated === true) {
+            header("Location: /hello");
+        }
 
         $registerView = new RegistrFormView('../public/js/registrHandler.js', "registr", '../public/css/style.css');
         $newUser = new RegistrModel('../dataBase/user.json');
