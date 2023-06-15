@@ -1,6 +1,7 @@
 RewriteEngine On
 
-
+# Если URL пустой, перенаправить на /start
+RewriteRule ^$ /start [L]
 
 # Перенаправить все остальные запросы на индексный файл.
 RewriteCond %{REQUEST_FILENAME} !-f

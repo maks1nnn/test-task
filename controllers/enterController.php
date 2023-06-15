@@ -6,14 +6,17 @@ namespace controllers;
 use helpers\SessionManager;
 use views\enter\EnterFormView;
 use models\EnterModel;
+use helpers\cookiesManager;
 
 class EnterController
 {
     private $sessionManager;
+    private $cookiesManager;
 
     public function __construct()
     {
         $this->sessionManager = new SessionManager();
+        $this->cookiesManager = new CookiesManager();
     }
 
     public function exec()
@@ -39,9 +42,11 @@ class EnterController
                 $response = $newUser->getResponse();
                 if (empty($response['errors'])) {
                     $response['success'] = true;
-                }
-                $this->sessionManager->set('username', $data['login']);
+                    $this->sessionManager->set('username', $data['login']);
                 $this->sessionManager->set('authenticated', true);
+                $this->cookiesManager->set('username', $data['login'], time() + 3600, '/', '', false, true);
+                }
+                
                 header('Content-Type: application/json');
                 echo json_encode($response);
             }

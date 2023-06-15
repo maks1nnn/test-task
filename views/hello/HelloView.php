@@ -15,16 +15,16 @@ class HelloView
 
     public function generateHTML()
     {
-        $html = "<html>";
-        $html .= "<head>";
-        $html .= "<title>Greetings</title>";
-        $html .= "</head>";
-        $html .= "<body>";
-        $html .= "<p>Hello " . $this->username . "</p>";
-        $html .= "<button onclick=\"logout()\">Выйти</button>";
-        $html .= '<script src="' . $this->jsHandlerFile . '"></script>';
-        $html .= "</body>";
-        $html .= "</html>";
+        $html = "<html>
+        <head>
+            <title>Greetings</title>
+        </head>
+        <body>
+            <p>Hello $this->username</p>
+            <button onclick=\"logout()\">Выйти</button>
+            <script src=\"$this->jsHandlerFile\"></script>
+        </body>
+        </html>";
 
         return $html;
     }
