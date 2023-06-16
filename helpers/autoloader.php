@@ -16,7 +16,6 @@ class Autoloader
             // Возвращаем обработанную строку в переменную $class
             $class = implode('\\', array_slice($parts, 0, -1)) . '\\' . $className;
             $file = '..' . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
-           
 
             if (file_exists($file)) {
                 require  $file;
