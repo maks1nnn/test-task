@@ -12,8 +12,8 @@ class RegistrModel extends \vendor\JsonDb
 
 
     public function __construct($fileName)
-    {
-        parent::__construct($fileName);
+    {        
+        parent::__construct($fileName);        
         $this->passwordHasher = new PasswordHasher();
         $this->uniqueChecker = new UniqueChecker($fileName);
     }

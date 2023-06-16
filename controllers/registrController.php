@@ -23,7 +23,7 @@ class RegistrController
         }
 
         $registerView = new RegistrFormView('../public/js/registrHandler.js', "registr", '../public/css/style.css');
-        $newUser = new RegistrModel('../dataBase/user.json');
+        $newUser = new RegistrModel('../database/user.json');
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {

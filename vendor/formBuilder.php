@@ -23,7 +23,7 @@ class FormBuilder
     $this->cssFile = $cssFile;
   }
 
-  public function addField( $type, $id, $name,$value, $placeholder, $errorId,)
+  public function addField( $type, $id, $name,$value, $placeholder, $errorId)
   {
     $this->fields[] = array(      
       'type' => $type,

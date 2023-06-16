@@ -27,7 +27,7 @@ class EnterController
             header("Location: /hello");
         }
         $enterView = new EnterFormView('../public/js/enterHandler.js', "enter", '../public/css/style.css');
-        $newUser = new EnterModel('../dataBase/user.json');
+        $newUser = new EnterModel('../database/user.json');
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
