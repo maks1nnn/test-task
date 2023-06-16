@@ -7,6 +7,7 @@ class Autoloader
 {
     public static function register()
     {
+
         spl_autoload_register(function ($class) {
             $parts = explode('\\', $class); // Разбиваем строку по символу обратного слэша ("\")
             $className = end($parts); // Получаем последний элемент массива
@@ -16,7 +17,6 @@ class Autoloader
             // Возвращаем обработанную строку в переменную $class
             $class = implode('\\', array_slice($parts, 0, -1)) . '\\' . $className;
             $file = '..' . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
-           
 
             if (file_exists($file)) {
                 require  $file;
