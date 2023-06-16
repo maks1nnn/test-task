@@ -6,9 +6,10 @@ namespace controllers;
 use helpers\SessionManager;
 use views\enter\EnterFormView;
 use models\EnterModel;
-use helpers\cookiesManager;
+use helpers\CookiesManager;
 
 class EnterController
+
 {
     private $sessionManager;
     private $cookiesManager;
@@ -20,10 +21,11 @@ class EnterController
     }
 
     public function exec()
-    {         
+    {
         $authenticated = $this->sessionManager->get('authenticated');
         if ($authenticated === true) {
-            header("Location: /hello");} 
+            header("Location: /hello");
+        }
         $enterView = new EnterFormView('../public/js/enterHandler.js', "enter", '../public/css/style.css');
         $newUser = new EnterModel('../dataBase/user.json');
 
@@ -43,16 +45,17 @@ class EnterController
                 if (empty($response['errors'])) {
                     $response['success'] = true;
                     $this->sessionManager->set('username', $data['login']);
-                $this->sessionManager->set('authenticated', true);
-                $this->cookiesManager->set('username', $data['login'], time() + 3600, '/', '', false, true);
+                    $this->sessionManager->set('authenticated', true);
+                    $this->cookiesManager->set('username', $data['login'], time() + 3600, '/', '', false, true);
                 }
-                
+
                 header('Content-Type: application/json');
                 echo json_encode($response);
             }
         } else {
             $login = $this->sessionManager->get('username');
             
+
 
             $enterView->displayForm($login);
         }

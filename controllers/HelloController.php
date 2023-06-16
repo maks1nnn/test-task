@@ -16,6 +16,10 @@ class HelloController
 
     public function hello()
     {
+        $authenticated = $this->sessionManager->get('authenticated');
+        if ($authenticated !== true) {
+            header("Location: /start");}
+
         $userName = $this->sessionManager->get('username');
         $newEnter = new HelloView($userName, '../public/js/logout.js' );
         

@@ -15,6 +15,5 @@ if ($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '') {
     $currentUrl = $_SERVER['REQUEST_URI'];
 }
 
-
 // Обрабатываем запрос
 $router->handleRequest($currentUrl);

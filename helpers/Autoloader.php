@@ -1,7 +1,7 @@
 <?php
 
 namespace helpers;
-use FFI\Exception;
+
 
 class Autoloader
 {

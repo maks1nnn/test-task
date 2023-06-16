@@ -3,7 +3,7 @@
 namespace router;
 
 class Router {
-    protected $routes = array();
+    protected $routes = [];
 
     // Добавление маршрута
     public function addRoute($url, $controller, $action) {
