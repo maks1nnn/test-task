@@ -1,9 +1,6 @@
-RewriteEngine On
+AdddefaultCharset utf-8
 
-# Если URL пустой, перенаправить на /start
-RewriteRule ^$ /start [L]
-
-# Перенаправить все остальные запросы на индексный файл.
+RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ public/index.php?url=$1 [QSA,L]
+RewriteRule ^(.*)$ index.php
