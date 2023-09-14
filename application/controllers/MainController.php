@@ -15,14 +15,13 @@ class MainController extends Controller
             $this->view->redirect('account/login');
         }
 
-        /*$result = $this->model->getNames();
-        PR($result);
+        
         $vars = [
-            'names' => $result,
+            'username' => $_SESSION['username'],
         ];
-        PR($vars);*/
+        
 
 
-        $this->view->render('Hello',); 
+        $this->view->render('Hello',$vars); 
     }
 }
