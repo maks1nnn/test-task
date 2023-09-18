@@ -7,8 +7,7 @@ use application\core\Controller;
 class MainController extends Controller
 {
     public function indexAction()
-    {
-        session_start();
+    {       
         if (!$_SESSION['aunthenticated'] == true) {
             $this->view->redirect('account/login');
         }
