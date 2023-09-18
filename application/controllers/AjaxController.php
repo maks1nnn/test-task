@@ -16,7 +16,7 @@ class AjaxController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
-                // Получение данных из формы
+
                 $login = isset($_POST['login']) ? $_POST['login'] : null;
                 $name = isset($_POST['name']) ? $_POST['name'] : null;
                 $email = isset($_POST['email']) ? $_POST['email'] : null;
@@ -27,12 +27,9 @@ class AjaxController
                 // Ваш код обработки данных здесь, если это не AJAX запрос
             }
 
-            // Валидация данных
-
             $this->validator->validateLogin($login);
             $this->validator->validatePassword($password);
 
-            // Проверка, есть ли дополнительные поля
             if (isset($name, $email, $repeatPassword)) {
                 $this->validator->validateName($name);
                 $this->validator->validateEmail($email);
@@ -50,12 +47,12 @@ class AjaxController
             exit;
         }
     }
-    public function logoutAction(){        
+    
+    public function logoutAction()
+    {
         setcookie($_SESSION['username'], "", time() - 3600, "/");
         unset($_COOKIE[$_SESSION['username']]);
         session_destroy();
-
-
         echo "Logout successful";
     }
 }

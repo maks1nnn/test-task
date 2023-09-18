@@ -1,6 +1,6 @@
 <?php
 
-return [
+/*return [
     'all' => [
         'login',
     ],
@@ -13,4 +13,4 @@ return [
     'admin' => [
         '',
     ],
-];
+];*/

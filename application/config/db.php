@@ -24,16 +24,3 @@ return [
 
 
 
-/*
-
-
-[database]
-host = localhost
-dbname = BookG
-user = root
-password = 
-
-[tablename]
-tableNameComment = Gbase
-tableNameUsers = Users
-*/

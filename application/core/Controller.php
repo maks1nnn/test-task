@@ -17,10 +17,9 @@ abstract class Controller
         $this->route = $route;
         $this->view = new View($route);
         $this->model = $this->loadModel($route['controller']);
-        if(isset($_SESSION['authenticated'])){
+        if (isset($_SESSION['authenticated'])) {
             header("Location: /hello");
         }
-        
     }
 
     public function loadModel($name)
@@ -40,6 +39,7 @@ abstract class Controller
         }
         return false;
     }
+    
     public function isAcl($key)
     {
         return in_array($this->route['action'], $this->acl[$key]);

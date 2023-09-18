@@ -14,9 +14,14 @@ abstract class Model
 
     public function __construct()
     {
+        $driver = require 'application/config/driverDb.php';       
         $fileName = require 'application/config/json.php';
-        $this->db = new Db;
-        $this->json = new JsonDb($fileName);
+        if ($driver === 'JSON')
+        {
+            $this->json = new JsonDb($fileName);
+        }else{
+            $this->db = new Db;
+        }
         $this->hasher = new PasswordHasher;
     }
 }
