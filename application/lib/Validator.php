@@ -19,7 +19,7 @@ class Validator
             if (!preg_match($pattern, $login)) {
                 $this->response['errors']['login'] = array(
                     'field' => 'login',
-                    'message' => 'Неправильный формат логина.Минимум 6 символов.'
+                    'message' => 'Неправильный формат логина.Минимум 6 символов.Должно содержать только латинские буквы.'
                 );
             }
         }
@@ -38,7 +38,7 @@ class Validator
             if (!preg_match($pattern, $name)) {
                 $this->response['errors']['name'] = array(
                     'field' => 'name',
-                    'message' => 'Неправильный формат имени.Минимум 2 символа только буквы.'
+                    'message' => 'Неправильный формат имени.Минимум 2 символа только буквы.Должно содержать только латинские буквы.'
                 );
             }
         }
@@ -57,7 +57,7 @@ class Validator
             if (!preg_match($pattern, $password)) {
                 $this->response['errors']['password'] = array(
                     'field' => 'password',
-                    'message' => 'Неправильный формат пароля.Минимум 6 символов.Бууквы и цифры. '
+                    'message' => 'Неправильный формат пароля.Минимум 6 символов.Бууквы и цифры.Должно содержать только латинские буквы. '
                 );
             }
         }
